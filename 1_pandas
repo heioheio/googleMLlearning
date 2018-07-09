@@ -1,0 +1,48 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Jul  9 14:47:47 2018
+
+@author: heio
+"""
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+city_names = pd.Series(['San Francisco', 'San Jose', 'Sacramento'])
+population = pd.Series([852469, 1015785, 485199])
+cities = pd.DataFrame({'City name': city_names, 'Population': population})
+
+print()
+print(cities.head())
+
+print()
+print(type(cities['City name']))
+
+print()
+print(cities['City name'])
+
+cities['Area square miles'] = pd.Series([46.87, 176.53, 97.92])
+cities['Population density'] = cities['Population'] / cities['Area square miles']
+
+cities['is wide and has saint name'] = (cities['Area square miles'] > 50) & cities['City name'].apply(
+    lambda name: name.startswith('San'))
+
+print()
+print(cities)
+
+cities_1 = cities.reindex([2, 0, 1])  # 索引不变，位置发生变化
+
+print()
+print(cities_1.head())  # cities 不变，生成新的DataFrame
+
+cities_2 = cities.reindex(np.random.permutation(cities.index))
+# pd.set_option('max_columns', 5)
+
+print()
+print(cities_2.head())
+
+cities_3 = cities.reindex([2, 3, 4])  # 允许在reinde中添加新的索引，并填充NaN
+
+print()
+print(cities_3.head())
